@@ -19,8 +19,7 @@ SELECT COUNT(*) AS total_content FROM netflix;
 
 SELECT DISTINCT type FROM netflix;
 
-
---15 BUSINESS PROBLEMS
+--QUERIES
 -- 1. Count the number of Movies and TV shows
 SELECT 
 type,
