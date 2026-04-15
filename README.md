@@ -9,20 +9,20 @@ This project analyzes Netflix's content library to address questions about conte
 
 The Netflix dataset schema:
 
-| Column Name     | Data Type    | Description                          |
-|------------------|--------------|--------------------------------------|
-| `show_id`        | VARCHAR(10)  | Unique identifier for each show.     |
-| `show_type`      | VARCHAR(10)  | Indicates if the content is a Movie or TV Show. |
-| `title`          | VARCHAR(150) | Name of the show or movie.           |
-| `director`       | VARCHAR(210) | Director of the content.             |
-| `show_cast`      | VARCHAR(1000)| List of cast members.                |
-| `country`        | VARCHAR(150) | Country where the content was produced. |
-| `date_added`     | VARCHAR(50)  | Date when the content was added to Netflix. |
-| `release_year`   | INT          | Year of release.                     |
-| `rating`         | VARCHAR(10)  | Content rating (e.g., PG-13).        |
-| `duration`       | VARCHAR(15)  | Length of the content.               |
-| `listed_in`      | VARCHAR(100) | Genres/categories.                   |
-| `description`    | VARCHAR(250) | Brief summary of the content.        |
+| Column Name     | Data Type    | Description                                      |
+|------------------|--------------|-------------------------------------------------|
+| `show_id`        | VARCHAR(10)  | Unique identifier for each show.                |
+| `type`           | VARCHAR(10)  | Indicates if the content is a Movie or TV Show. |
+| `title`          | VARCHAR(150) | Name of the show or movie.                      |
+| `director`       | VARCHAR(210) | Director of the content.                        |
+| `casts`          | VARCHAR(1000)| List of cast members.                           |
+| `country`        | VARCHAR(150) | Country where the content was produced.         |
+| `date_added`     | VARCHAR(50)  | Date when the content was added to Netflix.     |
+| `release_year`   | INT          | Year of release.                                |
+| `rating`         | VARCHAR(10)  | Content rating (e.g., PG-13).                   |
+| `duration`       | VARCHAR(15)  | Length of the content.                          |
+| `listed_in`      | VARCHAR(100) | Genres/categories.                              |
+| `description`    | VARCHAR(250) | Brief summary of the content.                   |
 
 
 ## Key Queries and Insights
@@ -74,10 +74,10 @@ Analyze the proportion of Movies vs. TV Shows added every year.
 ```sql
 SELECT 
     EXTRACT(YEAR FROM TO_DATE(date_added, 'Month DD, YYYY')) AS year,
-    show_type,
+    type,
     COUNT(*) AS show_type_count
 FROM netflix
-GROUP BY year, show_type
+GROUP BY year, type
 ORDER BY year, show_type_count DESC;
 ```
 
@@ -93,7 +93,7 @@ SELECT
     END AS duration_category,
     COUNT(*) AS total_content
 FROM netflix
-WHERE show_type = 'Movie'
+WHERE type = 'Movie'
 GROUP BY duration_category;
 
 
@@ -141,7 +141,7 @@ WITH actor_pairs AS (
         UNNEST(STRING_TO_ARRAY(show_cast, ',')) AS actor1,
         UNNEST(STRING_TO_ARRAY(show_cast, ',')) AS actor2
     FROM netflix
-    WHERE show_cast IS NOT NULL
+    WHERE casts IS NOT NULL
 )
 SELECT 
     actor1,
@@ -193,23 +193,6 @@ GROUP BY category;
 - **SQL**: Advanced querying for data extraction and manipulation.
 - **PostgreSQL**: Database management and execution environment.
 - **pgAdmin**: GUI tool for managing PostgreSQL databases.
-
-## Installation and Setup
-1. Clone this repository:
-   ```bash
-   [(https://github.com/Diganta404/Netflix_Data-Analysis-SQL)]
-
-
-2. Set up PostgreSQL and import the dataset.
-3. Run the SQL scripts in the `solution.sql` folder.
-
-## Contributing
-Contributions are welcome! If you have any queries or want to add new analyses, feel free to open a pull request.
-
-## Contact
-- **Name**: Diganta Mitra
-- **Email**: dgntmitra@gmail.com
-- **LinkedIn**: [Diganta Mitra](https://www.linkedin.com/in/diganta-mitra-77b634264?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app)
 
 
 
